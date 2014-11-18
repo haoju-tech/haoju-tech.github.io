@@ -1165,8 +1165,6 @@ a.article-title:hover {
 }
 .article-entry .highlight .line {
   height: 27px;
-  font-size: 12px;
-  height: 22px;
 }
 .article-entry .gist {
   margin: 0 -20px;
@@ -1269,6 +1267,11 @@ pre .coffeescript .title {
 pre .keyword,
 pre .javascript .function {
   color: #c9c;
+}
+.article-entry .highlight .line {
+  height: 22px;
+  line-height: 22px;
+  font-size: 12px;
 }
 @media screen and (max-width: 479px) {
   #mobile-nav {
