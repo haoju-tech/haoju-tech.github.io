@@ -806,7 +806,7 @@ a.article-title:hover {
 }
 .article-nav-caption {
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: #ddd;
   line-height: 1em;
   font-weight: bold;
