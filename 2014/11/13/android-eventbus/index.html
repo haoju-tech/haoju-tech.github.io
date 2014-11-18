@@ -92,6 +92,8 @@
       
         <p>工欲善其事，必先利其器。要想非常好的将EventBus运用到项目的实践当中去，就必须能够对其框架的内部的机制有很好的理解。So，就有了下面的系列文章。</p>
 <p>整个的EventBus框架分为两个包，22个类。包名分别是de.greenrobot.event与de.greenrobot.event.util。很显然，一个是框架的核心代码包，一个是其辅助作用的包，即工具类的集合。在de.greenrobot.event框架下一共有14个类，按照功能，可以大致分为这样几个方面：1）主进程与后台进程处理事件的真正工作者，包括：AsyncPoster、BackgroundPoster以及HandlerPoster。2）围绕整个框架的主题所涉及到的几个类，包括：EventBus、EventBusBuilder以及EventBusException。3）围绕订阅事件的对象Subscriber所需要的几个类，包括：NoSubscriberEvent、SubscriberExceptionEvent、SubscriberMethod以及SubscriberMethod。4）事件消息与事件消息队列相关的类，包括：PendingPost与PendingPostQueue。6）工具包不再一一说明。</p>
+<a id="more"></a>
+
 <h2 id="详细讲解主进程与后台进程处理事件的真正工作者">详细讲解主进程与后台进程处理事件的真正工作者</h2>
 <p>AsyncPoster实际上是异步的处理事件消息的队列，在这个类中，所涉及到两个成员变量，分别是事件消息队列与主框架Bus。AsyncPoster实现Runnable的接口，其工作正如其Run方法中所体现的那样，从消息队列中取出消息，交给Bus进行触发。同时它还有一个将事件投放到事件队列中的功能。核心方法如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">PendingPost pendingPost = queue.poll();</div><div class="line"></div><div class="line"><span class="keyword">if</span> (pendingPost == <span class="keyword">null</span>) {</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"No pending post available"</span>);</div><div class="line">}</div><div class="line"></div><div class="line">eventBus.invokeSubscriber(pendingPost);</div></pre></td></tr></table></figure>
@@ -124,7 +126,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/13/android-eventbus/" data-id="fdqx3aurglzqlvbe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/11/13/android-eventbus/" data-id="lv10ddt52e7g3tdo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EventBus/">EventBus</a></li></ul>
