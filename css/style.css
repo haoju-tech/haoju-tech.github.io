@@ -1165,6 +1165,8 @@ a.article-title:hover {
 }
 .article-entry .highlight .line {
   height: 27px;
+  font-size: 12px;
+  height: 22px;
 }
 .article-entry .gist {
   margin: 0 -20px;
