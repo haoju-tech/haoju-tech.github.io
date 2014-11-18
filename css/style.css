@@ -1269,8 +1269,8 @@ pre .javascript .function {
   color: #c9c;
 }
 .article-entry .highlight .line {
-  height: 22px;
-  line-height: 22px;
+  height: 20px;
+  line-height: 20px;
   font-size: 13px;
 }
 @media screen and (max-width: 479px) {
