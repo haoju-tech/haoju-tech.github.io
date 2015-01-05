@@ -67,6 +67,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-crontab-flock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/01/05/crontab-flock/" class="article-date">
+  <time datetime="2015-01-05T02:22:00.000Z" itemprop="datePublished">Jan 5 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/运维/">运维</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/05/crontab-flock/">在crontab中使用flock</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Author：小耳朵 / 架构师</p>
+<p>在好居的业务场景中，除了有守护进程处理实时性比较高的数据，还需要一些定时任务去处理实时性不是特别高的数据。一般使用php的命令行来编写定时任务。<br>这些定时任务一般放在crontab中去定时执行。那么问题就来了：当一个任务执行的时间特别长，已经超过了定时任务执行的时间间隔，就可能会产生数据的一致性问题。</p>
+<p>好居现在的解决方案，先编写一个shell脚本，在脚本中再执行php脚本。在执行之前，shell脚本会判断php脚本的进程是否存在，存在的话，则自动退出。<br>最近在网上看到另外一个解决方案，通过flock给文件加锁来解决。</p>
+<h2 id="flock">flock</h2>
+<p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
+<h2 id="命令使用">命令使用</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flock [<span class="link_label">-sxun</span>][<span class="link_reference">-w #</span>] fd#</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] file [-c] command...</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] directory [-c] command...</div></pre></td></tr></table></figure>
+
+<h2 id="参数说明">参数说明</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">s --shared 获取一个共享锁，其他地方也可以获取该类型锁，但是排斥独占锁</span></div><div class="line">-<span class="ruby">x --exclusive 获取一个独占锁，其他地方都不能获得锁，直到这边解锁</span></div><div class="line">-<span class="ruby">u --unlock 移除一个锁，这通常是不需要的，当进程结束后，会自动解锁</span></div><div class="line">-<span class="ruby">n --nonblock 如果申请不到锁就立刻返回失败，而不是阻塞在那里等待</span></div><div class="line">-<span class="ruby">w --timeout 该参数后面接，获取锁的时候允许等待的秒数</span></div><div class="line">-<span class="ruby">o --close 在执行 `-c`指定的命令前关闭文件描述符。必须是使用第一种格式时才可用，表示当执行 command 前关闭设置锁的 <span class="constant">FD</span> ，以使 command 的子进程不保持锁。</span></div><div class="line">-<span class="ruby">c --command 后面接要运行的命令，在获取锁后执行这个命令</span></div><div class="line">-<span class="ruby">h --help 显示帮助信息</span></div><div class="line">-<span class="ruby"><span class="constant">V</span> --version 显示版本</span></div></pre></td></tr></table></figure>
+
+<h2 id="应用">应用</h2>
+<h3 id="在crontab里，通过排他锁来保证当前任务只有一个在执行">在crontab里，通过排他锁来保证当前任务只有一个在执行</h3>
+<p>这样就可以避免有时任务脚本运行时间大于间隔时间，导致同一个脚本有多个任务在跑，从而引起的数据冲突。</p>
+<pre><code>-<span class="ruby"> 在执行频繁的任务脚本里，我们可以指定 -n 参数，当获得不到锁就不运行。
+</span>-<span class="ruby"> 在执行间隔不长的任务脚本里，我们可以指定 -w 秒数，等待一定秒数后，还是获取不到锁就返回。
+</span>-<span class="ruby"> 在间隔很长的任务脚本里，我们可以选择让脚本一直等待锁定，直到获取锁然后执行。</span>
+</code></pre><h3 id="长时间脚本">长时间脚本</h3>
+<p>我们往往有这样的需求，例如当用户点击生成财务账单的时候，后台就进行账单生成，前台返回生成中状态，等后台生成完毕后用户就可以点击下载了。我们可能会采用以下流程来处理：</p>
+<pre><code><span class="bullet">1. </span>用户点击生成账单，后台往task任务表写入一条任务，返回生成中状态；
+<span class="bullet">2. </span>后台起一个计划任务，读取task表里的任务，生成账单；
+<span class="bullet">3. </span>通知用户账单已经生成；
+<span class="bullet">4. </span>用户下载账单；
+</code></pre><p>这样，我们后台的生成账单的计划任务就必须长时间跑着，我们不知道用户什么时候会点生成账单，我们必须有一个任务不停的查询生成账单任务表。但是，PHP以及我们安装使用的拓展可能存在内存泄漏之类的问题，让我们不可能让计划任务一直跑着个死循环不停下来。这个时候就可以利用flock了，我们可以一分钟执行一次计划任务，但是必须获得独占锁才能执行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://tech.haoju.co/2015/01/05/crontab-flock/" data-id="iv72ubku9fl2qutk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/">crontab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flock/">flock</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+
+  
     <article id="post-android-eventbus" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/11/13/android-eventbus/" class="article-date">
@@ -129,7 +198,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -138,7 +207,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crontab/">crontab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flock/">flock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -147,7 +216,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: NaNpx;">Android</a><a href="/tags/EventBus/" style="font-size: NaNpx;">EventBus</a>
+      <a href="/tags/Android/" style="font-size: NaNpx;">Android</a><a href="/tags/EventBus/" style="font-size: NaNpx;">EventBus</a><a href="/tags/crontab/" style="font-size: NaNpx;">crontab</a><a href="/tags/flock/" style="font-size: NaNpx;">flock</a><a href="/tags/php/" style="font-size: NaNpx;">php</a>
     </div>
   </div>
 
@@ -156,7 +225,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -166,6 +235,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/01/05/crontab-flock/">在crontab中使用flock</a>
+          </li>
         
           <li>
             <a href="/2014/11/13/android-eventbus/">详细讲解Android框架EventBus</a>
@@ -183,7 +256,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2014 Haoju-Tech<br>
+      &copy; 2015 Haoju-Tech<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
