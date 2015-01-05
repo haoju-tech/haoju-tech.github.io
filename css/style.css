@@ -626,8 +626,8 @@ a.article-title:hover {
 .article-entry blockquote {
   padding: 0 0 0 1em;
   font-family: Georgia, "Times New Roman", 'Microsoft Yahei';
-  font-size: 1.4em;
-  margin: 1.8em 20px;
+  font-size: 1.2em;
+  margin: 1.8em 10px;
   text-align: left;
   border-left: 2px solid #258fb8;
 }
