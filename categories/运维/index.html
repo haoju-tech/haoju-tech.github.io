@@ -100,9 +100,6 @@
 <blockquote>
 <p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
 </blockquote>
-<h2 id="命令使用">命令使用</h2>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flock [<span class="link_label">-sxun</span>][<span class="link_reference">-w #</span>] fd#</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] file [-c] command...</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] directory [-c] command...</div></pre></td></tr></table></figure>
-
 
         
           <p class="article-more-link">
