@@ -100,14 +100,14 @@
         <p>Author：小耳朵 / 架构师</p>
 <p>在好居的业务场景中，除了有守护进程处理实时性比较高的数据，还需要一些定时任务去处理实时性不是特别高的数据。一般使用php的命令行来编写定时任务。<br>这些定时任务一般放在crontab中去定时执行。那么问题就来了：当一个任务执行的时间特别长，已经超过了定时任务执行的时间间隔，就可能会产生数据的一致性问题。</p>
 <p>好居现在的解决方案，先编写一个shell脚本，在脚本中再执行php脚本。在执行之前，shell脚本会判断php脚本的进程是否存在，存在的话，则自动退出。<br>最近在网上看到另外一个解决方案，通过flock给文件加锁来解决。</p>
-<a id="more"></a>
-
 <h2 id="flock">flock</h2>
 <blockquote>
 <p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
 </blockquote>
 <h2 id="命令使用">命令使用</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flock [<span class="link_label">-sxun</span>][<span class="link_reference">-w #</span>] fd#</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] file [-c] command...</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] directory [-c] command...</div></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <h2 id="参数说明">参数说明</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">s --shared 获取一个共享锁，其他地方也可以获取该类型锁，但是排斥独占锁</span></div><div class="line">-<span class="ruby">x --exclusive 获取一个独占锁，其他地方都不能获得锁，直到这边解锁</span></div><div class="line">-<span class="ruby">u --unlock 移除一个锁，这通常是不需要的，当进程结束后，会自动解锁</span></div><div class="line">-<span class="ruby">n --nonblock 如果申请不到锁就立刻返回失败，而不是阻塞在那里等待</span></div><div class="line">-<span class="ruby">w --timeout 该参数后面接，获取锁的时候允许等待的秒数</span></div><div class="line">-<span class="ruby">o --close 在执行 `-c`指定的命令前关闭文件描述符。必须是使用第一种格式时才可用，表示当执行 command 前关闭设置锁的 <span class="constant">FD</span> ，以使 command 的子进程不保持锁。</span></div><div class="line">-<span class="ruby">c --command 后面接要运行的命令，在获取锁后执行这个命令</span></div><div class="line">-<span class="ruby">h --help 显示帮助信息</span></div><div class="line">-<span class="ruby"><span class="constant">V</span> --version 显示版本</span></div></pre></td></tr></table></figure>

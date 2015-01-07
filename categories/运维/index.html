@@ -96,6 +96,13 @@
         <p>Author：小耳朵 / 架构师</p>
 <p>在好居的业务场景中，除了有守护进程处理实时性比较高的数据，还需要一些定时任务去处理实时性不是特别高的数据。一般使用php的命令行来编写定时任务。<br>这些定时任务一般放在crontab中去定时执行。那么问题就来了：当一个任务执行的时间特别长，已经超过了定时任务执行的时间间隔，就可能会产生数据的一致性问题。</p>
 <p>好居现在的解决方案，先编写一个shell脚本，在脚本中再执行php脚本。在执行之前，shell脚本会判断php脚本的进程是否存在，存在的话，则自动退出。<br>最近在网上看到另外一个解决方案，通过flock给文件加锁来解决。</p>
+<h2 id="flock">flock</h2>
+<blockquote>
+<p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
+</blockquote>
+<h2 id="命令使用">命令使用</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flock [<span class="link_label">-sxun</span>][<span class="link_reference">-w #</span>] fd#</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] file [-c] command...</div><div class="line">flock [<span class="link_label">-sxon</span>][<span class="link_reference">-w #</span>] directory [-c] command...</div></pre></td></tr></table></figure>
+
 
         
           <p class="article-more-link">
