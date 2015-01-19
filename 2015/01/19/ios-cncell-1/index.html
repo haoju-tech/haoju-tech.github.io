@@ -3,17 +3,32 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | 好居技术团队</title>
+  <title>IOS列表自定义组件CNCell详解之一 | 好居技术团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="好居技术团队博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="好居技术团队">
-<meta property="og:url" content="http://tech.haoju.co/archives/2015/">
+  <meta name="description" content="Author：彪哥 / IOS开发工程师
+这个组件是我在开发好居大麦产品系的时候，根据好居大麦产品的特点，写了这么个组件！为什么要写这个组件泥，有以下几个原因：
+
+产品需求的特殊性，其他组件无法满足其要求，需要自主开发；
+通用性，激发去开发组件的一个重要原因，就在于这个东西在一个app出现了很多次，而且在整个大麦的产品系中都有。
+公用性。一个开发小组，开发一个组件，就不需要你写一个我写一个，大家公">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS列表自定义组件CNCell详解之一">
+<meta property="og:url" content="http://tech.haoju.co/2015/01/19/ios-cncell-1/">
 <meta property="og:site_name" content="好居技术团队">
-<meta property="og:description" content="好居技术团队博客">
+<meta property="og:description" content="Author：彪哥 / IOS开发工程师
+这个组件是我在开发好居大麦产品系的时候，根据好居大麦产品的特点，写了这么个组件！为什么要写这个组件泥，有以下几个原因：
+
+产品需求的特殊性，其他组件无法满足其要求，需要自主开发；
+通用性，激发去开发组件的一个重要原因，就在于这个东西在一个app出现了很多次，而且在整个大麦的产品系中都有。
+公用性。一个开发小组，开发一个组件，就不需要你写一个我写一个，大家公">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="好居技术团队">
-<meta name="twitter:description" content="好居技术团队博客">
+<meta name="twitter:title" content="IOS列表自定义组件CNCell详解之一">
+<meta name="twitter:description" content="Author：彪哥 / IOS开发工程师
+这个组件是我在开发好居大麦产品系的时候，根据好居大麦产品的特点，写了这么个组件！为什么要写这个组件泥，有以下几个原因：
+
+产品需求的特殊性，其他组件无法满足其要求，需要自主开发；
+通用性，激发去开发组件的一个重要原因，就在于这个东西在一个app出现了很多次，而且在整个大麦的产品系中都有。
+公用性。一个开发小组，开发一个组件，就不需要你写一个我写一个，大家公">
 
   
     <link rel="alternative" href="/atom.xml" title="好居技术团队" type="application/atom+xml">
@@ -65,9 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-ios-cncell-1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-ios-cncell-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/01/19/ios-cncell-1/" class="article-date">
   <time datetime="2015-01-19T01:00:00.000Z" itemprop="datePublished">Jan 19 2015</time>
@@ -84,8 +97,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/19/ios-cncell-1/">IOS列表自定义组件CNCell详解之一</a>
+    <h1 class="article-title" itemprop="name">
+      IOS列表自定义组件CNCell详解之一
     </h1>
   
 
@@ -131,71 +144,48 @@
     </footer>
   </div>
   
-</article>
-
-
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-crontab-flock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/05/crontab-flock/" class="article-date">
-  <time datetime="2015-01-05T02:22:00.000Z" itemprop="datePublished">Jan 5 2015</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/运维/">运维</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/05/crontab-flock/">在crontab中使用flock</a>
-    </h1>
+    <a href="/2015/01/05/crontab-flock/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在crontab中使用flock</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Author：小耳朵 / 架构师</p>
-<p>在好居的业务场景中，除了有守护进程处理实时性比较高的数据，还需要一些定时任务去处理实时性不是特别高的数据。一般使用php的命令行来编写定时任务。<br>这些定时任务一般放在crontab中去定时执行。那么问题就来了：当一个任务执行的时间特别长，已经超过了定时任务执行的时间间隔，就可能会产生数据的一致性问题。</p>
-<p>好居现在的解决方案，先编写一个shell脚本，在脚本中再执行php脚本。在执行之前，shell脚本会判断php脚本的进程是否存在，存在的话，则自动退出。<br>最近在网上看到另外一个解决方案，通过flock给文件加锁来解决。</p>
-<h2 id="flock">flock</h2>
-<blockquote>
-<p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
-</blockquote>
-
-        
-          <p class="article-more-link">
-            <a href="/2015/01/05/crontab-flock/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://tech.haoju.co/2015/01/05/crontab-flock/" data-id="sb0qvijrn95ts91v" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/">crontab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flock/">flock</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小耳朵/">小耳朵</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
 
 
+<style type="text/css">
+#ds-thread {
+  margin: 0 0 60px 0;
+  padding: 20px;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  background: white;
+  box-shadow: 1px 2px 3px #ddd;
+}
+</style>
 
-  
-  
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"haoju-tech"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
 </section>
         
           <aside id="sidebar">

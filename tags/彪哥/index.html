@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | 好居技术团队</title>
+  <title>Tag: 彪哥 | 好居技术团队</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="好居技术团队博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="好居技术团队">
-<meta property="og:url" content="http://tech.haoju.co/archives/2015/">
+<meta property="og:url" content="http://tech.haoju.co/tags/彪哥/">
 <meta property="og:site_name" content="好居技术团队">
 <meta property="og:description" content="好居技术团队博客">
 <meta name="twitter:card" content="summary">
@@ -127,63 +127,6 @@
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CNCell/">CNCell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IOS/">IOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/彪哥/">彪哥</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-
-  
-    <article id="post-crontab-flock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/01/05/crontab-flock/" class="article-date">
-  <time datetime="2015-01-05T02:22:00.000Z" itemprop="datePublished">Jan 5 2015</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/运维/">运维</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/05/crontab-flock/">在crontab中使用flock</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Author：小耳朵 / 架构师</p>
-<p>在好居的业务场景中，除了有守护进程处理实时性比较高的数据，还需要一些定时任务去处理实时性不是特别高的数据。一般使用php的命令行来编写定时任务。<br>这些定时任务一般放在crontab中去定时执行。那么问题就来了：当一个任务执行的时间特别长，已经超过了定时任务执行的时间间隔，就可能会产生数据的一致性问题。</p>
-<p>好居现在的解决方案，先编写一个shell脚本，在脚本中再执行php脚本。在执行之前，shell脚本会判断php脚本的进程是否存在，存在的话，则自动退出。<br>最近在网上看到另外一个解决方案，通过flock给文件加锁来解决。</p>
-<h2 id="flock">flock</h2>
-<blockquote>
-<p>建议性锁定文件，并非可靠的锁定，其他程序可以抛开flock直接操作文件，只有大家都使用flock才能使锁定起作用。</p>
-</blockquote>
-
-        
-          <p class="article-more-link">
-            <a href="/2015/01/05/crontab-flock/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://tech.haoju.co/2015/01/05/crontab-flock/" data-id="sb0qvijrn95ts91v" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/">crontab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flock/">flock</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/小耳朵/">小耳朵</a></li></ul>
 
     </footer>
   </div>
